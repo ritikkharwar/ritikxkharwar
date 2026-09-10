@@ -785,7 +785,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible{
     <div class="section-inner">
       <div class="section-label">02 // SKILL MATRIX</div>
       <div class="skills-terminal">
-        <div class="terminal-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>&nbsp;ritik@dataterm: ~/skills</div>
+        <div class="terminal-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
         <div class="skills-term-body">
           <div class="skills-prompt"><span class="sk-prompt-sym">$</span> skills --show<span class="terminal-cursor"></span></div>
           <div class="skill-categories" id="skillCategories"></div>
@@ -2014,4 +2014,5 @@ let cmdLastFocus = null, cmdSelIndex = 0;
 const COMMANDS = [
   {label:"Go to About", key:"about", run:()=>scrollToSection('about')},
   {label:"Go to Skills", key:"skills", run:()=>scrollToSection('skills')},
-  {label:"Go to Projects", key:"work", run:()=>scrollToSe
+  {label:"Go to Projects", key:"work", run:()=>scrollToSection('work')},
+  {label:"Go t
