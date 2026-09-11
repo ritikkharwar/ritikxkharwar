@@ -1365,14 +1365,17 @@ projectModal.addEventListener('click', e=>{ if(e.target===projectModal) closePro
 /* ============================================================
    preloader boot sequence — visible before the site is revealed.
    The final line is a REAL loading percentage (fonts + window load),
-   not a canned static number.
+   not a canned static number. Kept fast on purpose: total time is
+   capped well under 2s, and any key/tap/click skips it instantly.
    ============================================================ */
 const bootLines = ["SYSTEM READY_","DATA ANALYST // PYTHON DEVELOPER","LOADING PORTFOLIO..."];
 const bootEl = document.getElementById('loaderBoot');
 const loaderEl = document.getElementById('loader');
 const siteWrap = document.getElementById('siteWrap');
-let bi=0, ci=0;
+let bi=0, ci=0, bootSkipped=false;
 function typeBoot(){
+  if(bootSkipped) return;
+  if(REDUCE_MOTION){ revealSite(); return; }
   if(bi>=bootLines.length){
     bootEl.innerHTML += '\n';
     startLoadingBar();
@@ -1380,8 +1383,8 @@ function typeBoot(){
   }
   const line = bootLines[bi];
   if(ci===0 && bi>0) bootEl.innerHTML += '\n';
-  if(ci<line.length){ bootEl.innerHTML += line[ci]; ci++; setTimeout(typeBoot, bi===2?14:22); }
-  else { ci=0; bi++; setTimeout(typeBoot, 200); }
+  if(ci<line.length){ bootEl.innerHTML += line[ci]; ci++; setTimeout(typeBoot, bi===2?6:9); }
+  else { ci=0; bi++; setTimeout(typeBoot, 80); }
 }
 function startLoadingBar(){
   const barLine = document.createElement('span');
@@ -1393,15 +1396,16 @@ function startLoadingBar(){
   const total = 15, started = performance.now();
   let displayed = 0;
   function tick(){
+    if(bootSkipped) return;
     const real = (fontsReady?50:0) + (pageLoaded?50:0);
-    const timeFloor = Math.min(99, (performance.now()-started)/18); // keeps it moving even if load signals lag
+    const timeFloor = Math.min(99, (performance.now()-started)/5); // reaches 99% in ~500ms even if load signals lag
     const target = Math.max(real, timeFloor);
-    displayed += (target-displayed)*0.15;
-    if(displayed >= 99.3){
+    displayed += (target-displayed)*0.35;
+    if(displayed >= 99){
       const filled = total;
       barLine.textContent = '\u2588'.repeat(filled)+'  100%';
       bootEl.innerHTML += '<span class="blink"></span>';
-      setTimeout(revealSite, 400);
+      setTimeout(revealSite, 150);
       return;
     }
     const filled = Math.round(total*displayed/100);
@@ -1411,13 +1415,20 @@ function startLoadingBar(){
   requestAnimationFrame(tick);
 }
 function revealSite(){
+  if(siteWrap.classList.contains('ready')) return;
+  bootSkipped = true;
   loaderEl.classList.add('hide');
   siteWrap.classList.add('ready');
   document.documentElement.classList.remove('loading');
-  setTimeout(()=>{ loaderEl.remove(); }, 550);
+  setTimeout(()=>{ loaderEl.remove(); }, 400);
 }
 // safety net: never trap the user on the loader
-setTimeout(()=>{ if(!siteWrap.classList.contains('ready')) revealSite(); }, 4000);
+setTimeout(()=>{ if(!siteWrap.classList.contains('ready')) revealSite(); }, 1800);
+// let anyone skip the boot animation instantly — click, tap, or any key
+loaderEl.addEventListener('click', revealSite);
+window.addEventListener('keydown', function skipOnce(e){
+  if(!siteWrap.classList.contains('ready')){ revealSite(); }
+}, {once:true});
 typeBoot();
 
 /* ============================================================
@@ -2004,15 +2015,4 @@ function unlockResume(){
    ============================================================ */
 
 /* ============================================================
-   Ctrl+K command palette
-   ============================================================ */
-const cmdPalette = document.getElementById('cmdPalette');
-const cmdInput = document.getElementById('cmdInput');
-const cmdList = document.getElementById('cmdList');
-let cmdLastFocus = null, cmdSelIndex = 0;
-
-const COMMANDS = [
-  {label:"Go to About", key:"about", run:()=>scrollToSection('about')},
-  {label:"Go to Skills", key:"skills", run:()=>scrollToSection('skills')},
-  {label:"Go to Projects", key:"work", run:()=>scrollToSection('work')},
-  {label:"Go t
+   
