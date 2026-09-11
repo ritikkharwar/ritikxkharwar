@@ -2015,4 +2015,68 @@ function unlockResume(){
    ============================================================ */
 
 /* ============================================================
-   
+   Ctrl+K command palette
+   ============================================================ */
+const cmdPalette = document.getElementById('cmdPalette');
+const cmdInput = document.getElementById('cmdInput');
+const cmdList = document.getElementById('cmdList');
+let cmdLastFocus = null, cmdSelIndex = 0;
+
+const COMMANDS = [
+  {label:"Go to About", key:"about", run:()=>scrollToSection('about')},
+  {label:"Go to Skills", key:"skills", run:()=>scrollToSection('skills')},
+  {label:"Go to Projects", key:"work", run:()=>scrollToSection('work')},
+  {label:"Go to GitHub", key:"github", run:()=>scrollToSection('ghub')},
+  {label:"Go to Contact", key:"contact", run:()=>scrollToSection('contact')},
+  {label:"Toggle theme (green / pink)", key:"theme", run:()=>{ applyTheme(!pinkTheme); triggerFlash(); }},
+  {label:"Enable matrix mode", key:"matrix", run:()=>toggleMatrix(true)},
+  {label:"Copy email address", key:"email", run:()=>{
+      navigator.clipboard?.writeText('ritikkharwar995@gmail.com').catch(()=>{});
+    }},
+  {label:"Message on WhatsApp", key:"whatsapp phone", run:()=>window.open('https://wa.me/917991428221','_blank','noopener')},
+  {label:"Open GitHub profile", key:"repo", run:()=>window.open('https://github.com/ritikkharwar','_blank','noopener')},
+  {label:"Toggle dev mode", key:"dev", run:()=>toggleDev()}
+];
+
+function scrollToSection(id){ document.getElementById(id).scrollIntoView({behavior: REDUCE_MOTION?'auto':'smooth'}); }
+
+function renderCmdList(filter){
+  const f = filter.trim().toLowerCase();
+  const items = COMMANDS.filter(c => c.label.toLowerCase().includes(f) || c.key.includes(f));
+  cmdSelIndex = 0;
+  cmdList.innerHTML = items.map((c,i)=>
+    `<div class="cmd-item${i===0?' sel':''}" data-idx="${COMMANDS.indexOf(c)}"><span>${c.label}</span><span class="ck">${c.key}</span></div>`
+  ).join('') || `<div class="cmd-item">No matching command</div>`;
+  cmdList.querySelectorAll('.cmd-item[data-idx]').forEach(el=>{
+    el.addEventListener('click', ()=>{ runCommand(parseInt(el.dataset.idx,10)); });
+  });
+}
+function runCommand(i){
+  const cmd = COMMANDS[i];
+  if(cmd){ closePalette(); cmd.run(); }
+}
+function openPalette(){
+  cmdLastFocus = document.activeElement;
+  cmdPalette.classList.add('on');
+  cmdInput.value = '';
+  renderCmdList('');
+  cmdInput.focus();
+}
+function closePalette(){
+  cmdPalette.classList.remove('on');
+  if(cmdLastFocus) cmdLastFocus.focus();
+}
+cmdPalette.addEventListener('click', e=>{ if(e.target===cmdPalette) closePalette(); });
+cmdInput.addEventListener('input', ()=>renderCmdList(cmdInput.value));
+cmdInput.addEventListener('keydown', e=>{
+  const items = Array.from(cmdList.querySelectorAll('.cmd-item[data-idx]'));
+  if(!items.length) return;
+  if(e.key==='ArrowDown'){ e.preventDefault(); cmdSelIndex=(cmdSelIndex+1)%items.length; }
+  else if(e.key==='ArrowUp'){ e.preventDefault(); cmdSelIndex=(cmdSelIndex-1+items.length)%items.length; }
+  else if(e.key==='Enter'){ e.preventDefault(); runCommand(parseInt(items[cmdSelIndex].dataset.idx,10)); return; }
+  else return;
+  items.forEach((el,i)=>el.classList.toggle('sel', i===cmdSelIndex));
+});
+</script>
+</body>
+</html>
