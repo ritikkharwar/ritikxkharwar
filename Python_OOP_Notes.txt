@@ -1,0 +1,374 @@
+# PART 1 — OOP Basics
+
+## Q1. Why do we need OOP in Python?
+Answer: Built-in data types like `int`, `list`, and `dict` are not enough to represent real-world entities like Student, Bank, or Car. OOP allows us to create our own data types using classes.
+```
+class Student:
+    pass
+```
+> Cross Question: Can we create multiple objects from one class?
+> Answer: Yes.
+
+## Q2. What is OOP?
+Answer: OOP stands for Object-Oriented Programming. It combines data and methods inside a class to represent real-world objects.
+
+## Q3. What are the three important terms in OOP?
+Answer:
+- Class
+- Object
+- Reference Variable
+
+## Q4. What is a Class?
+Answer: A class is a blueprint or template used to create objects.
+```
+class Student:
+    pass
+```
+> Cross Question: Can a class exist without an object?
+> Answer: Yes.
+
+## Q5. What is an Object?
+Answer: An object is the real instance of a class.
+```
+s=Student()
+```
+
+## Q6. What is a Reference Variable?
+Answer: A reference variable stores the address of an object.
+```
+s=Student()
+```
+Here `s` is the reference variable.
+
+# PART 2 — Constructor & Self
+
+## Q7. What is `self`?
+Answer: `self` is a reference variable that refers to the current object. Python automatically passes it.
+
+## Q8. Is `self` a keyword?
+Answer: No. It is just a naming convention.
+
+## Q9. What is a Constructor?
+Answer: A constructor is a special method named `__init__()` that runs automatically when an object is created.
+
+## Q10. Why do we use `__init__()`?
+Answer: To initialize instance variables.
+
+## Q11. Can we change the name of `__init__()`?
+Answer: No.
+
+## Q12. Is constructor mandatory?
+Answer: No. Python provides a default constructor if we don't create one.
+
+# PART 3 — Variables
+
+## Q13. What are Instance Variables?
+Answer: Their values change according to objects.
+```
+self.name=name
+```
+
+## Q14. What is a Static Variable?
+Answer: A static variable belongs to the class and is shared by all objects.
+```
+class Student:
+    institute="QSpiders"
+```
+
+## Q15. What is a Local Variable?
+Answer: A local variable exists only inside a method.
+
+## Q16. Difference between Instance and Static Variable?
+| Instance | Static |
+| --- | --- |
+| Belongs to object | Belongs to class |
+| Changes for each object | Same for every object |
+
+# PART 4 — Methods
+
+## Q17. What are the types of methods?
+Answer:
+- Instance Method
+- Class Method
+- Static Method
+
+## Q18. What is an Instance Method?
+Answer: A method whose first parameter is `self`.
+
+## Q19. What is a Class Method?
+Answer: A method whose first parameter is `cls`. Decorator:
+```
+@classmethod
+```
+
+## Q20. What is a Static Method?
+Answer: A utility method that doesn't use `self` or `cls`. Decorator:
+```
+@staticmethod
+```
+
+# PART 5 — Four Pillars
+
+## Q21. What are the four pillars of OOP?
+Answer:
+- Inheritance
+- Polymorphism
+- Encapsulation
+- Abstraction
+
+# PART 6 — Inheritance
+
+## Q22. What is Inheritance?
+Answer: Inheritance allows a child class to reuse properties of a parent class.
+
+## Q23. Advantages of Inheritance?
+Answer:
+- Code Reusability
+- Code Extendability
+
+## Q24. How many types of inheritance are there?
+Answer:
+- Single
+- Multilevel
+- Hierarchical
+- Multiple
+- Hybrid
+- Cyclic (Not Supported)
+
+## Q25. Difference between Single and Multilevel Inheritance?
+| Single | Multilevel |
+| --- | --- |
+| One Parent | Parent to Child to Grandchild |
+
+## Q26. What is Multiple Inheritance?
+Answer: One child inherits from multiple parents.
+
+## Q27. What is MRO? (Extra Interview Question)
+Answer: MRO stands for Method Resolution Order. Python searches methods from left to right.
+```
+class C(B,A):
+    pass
+```
+
+# PART 7 — Polymorphism
+
+## Q28. What is Polymorphism?
+Answer: One interface with multiple forms.
+
+## Q29. What are the types of Polymorphism?
+Answer:
+- Overloading
+- Overriding
+
+## Q30. Does Python support Method Overloading?
+Answer: No. Only the last method with the same name works.
+
+## Q31. What is Operator Overloading?
+Answer: It allows operators like `+` to work with user-defined objects.
+
+## Q32. Which magic method is used for addition?
+Answer:
+```
+__add__()
+```
+
+## Q33. What is `__str__()`? (Extra Question)
+Answer: It returns a readable string representation of an object.
+
+## Q34. What is `__repr__()`? (Extra Question)
+Answer: It returns the developer-friendly representation of an object.
+
+# PART 8 — Overriding
+
+## Q35. What is Method Overriding?
+Answer: The child creates a method with the same name as the parent. The child's method gets priority.
+
+## Q36. What is Constructor Overriding?
+Answer: The child creates its own `__init__()`.
+
+## Q37. What is `super()`?
+Answer: `super()` accesses parent class properties.
+
+## Q38. Where can `super()` be used?
+Answer:
+- Parent Method
+- Parent Constructor
+- Parent Static Variable
+
+## Q39. Why do we use `super().__init__()`? (Extra Question)
+Answer: To execute the parent constructor inside the child constructor.
+
+# PART 9 — Access Specifiers
+
+## Q40. What are Public, Private, and Protected members?
+| Type | Symbol |
+| --- | --- |
+| Public | a |
+| Protected | _a |
+| Private | __a |
+
+## Q41. Can we access a private variable outside the class?
+Answer: No.
+
+## Q42. What is Name Mangling? (Extra Question)
+Answer: Python internally changes `__a` into `_ClassName__a`.
+
+# PART 10 — Getter & Setter
+
+## Q43. What is a Getter Method?
+Answer: It returns an instance variable.
+
+## Q44. What is a Setter Method?
+Answer: It updates an instance variable.
+
+## Q45. What is `@property`? (Extra Question)
+Answer: It creates getters and setters in a modern Python way.
+
+# PART 11 — Encapsulation
+
+## Q46. What is Encapsulation?
+Answer: Binding variables and methods into one class. Main purpose:
+- Data Hiding
+- Data Safety
+
+# PART 12 — Abstraction
+
+## Q47. What is Abstraction?
+Answer: It hides internal implementation and shows only necessary features.
+
+## Q48. Can we create an object of an Abstract Class?
+Answer: No.
+
+## Q49. Which module is used for Abstract Class?
+Answer:
+```
+abc
+```
+
+## Q50. What is `@abstractmethod`?
+Answer: It creates an incomplete method that child classes must implement.
+
+# PART 13 — Modules & Packages
+
+## Q51. What is a Module?
+Answer: A Python file.
+
+## Q52. What is a Package?
+Answer: A folder containing Python modules.
+
+## Q53. What is Module Aliasing?
+Answer:
+```
+import math as m
+```
+
+## Q54. What is `__name__`?
+Answer: A special variable whose value becomes:
+- `__main__`
+- File Name
+
+# PART 14 — Generators
+
+## Q55. What is a Generator?
+Answer: A special function that produces values one at a time using `yield`.
+
+## Q56. Difference between `yield` and `return`?
+| yield | return |
+| --- | --- |
+| Gives one value at a time | Ends function |
+
+## Q57. What does `next()` do?
+Answer: It gets the next value from a generator.
+
+# PART 15 — Decorators
+
+## Q58. What is a Decorator?
+Answer: A function that adds functionality to another function without changing its original code.
+
+## Q59. What are Built-in Decorators?
+Answer:
+- `@staticmethod`
+- `@classmethod`
+- `@property`
+- `@abstractmethod`
+
+# PART 16 — Exception Handling
+
+## Q60. What is an Exception?
+Answer: A runtime error.
+
+## Q61. Why do we use `try` and `except`?
+Answer: To prevent the program from crashing.
+
+## Q62. What is `finally`?
+Answer: It always executes.
+
+## Q63. Difference between `else` and `finally`?
+| else | finally |
+| --- | --- |
+| Runs if no error | Runs every time |
+
+## Q64. How do you raise a custom exception?
+Answer:
+```
+raise ValueError("Invalid")
+```
+
+# PART 17 — Lambda
+
+## Q65. What is a Lambda Function?
+Answer: A one-line anonymous function.
+```
+square=lambda x:x*x
+```
+
+# PART 18 — File Handling
+
+## Q66. What are the steps of File Handling?
+Answer:
+- Open
+- Read/Write
+- Close
+
+## Q67. Difference between `w` and `a` mode?
+| w | a |
+| --- | --- |
+| Replaces content | Adds content |
+
+## Q68. Why do we use `with open()`?
+Answer: It automatically closes the file.
+
+# PART 19 — OS & Shutil
+
+## Q69. What does `os.listdir()` do?
+Answer: Returns all files inside a folder.
+
+## Q70. Difference between `os.remove()` and `os.rmdir()`?
+| remove | rmdir |
+| --- | --- |
+| Deletes file | Deletes empty folder |
+
+## Q71. What does `shutil.copy()` do? (Extra Question)
+Answer: Copies a file.
+
+# PART 20 — Extra Frequently Asked Python OOP Interview Questions
+These weren't in the original notes, but they come up a lot in interviews.
+- Q72. Difference between Class and Object?
+- Q73. Difference between `is` and `==`?
+- Q74. What is Duck Typing?
+- Q75. What is Composition (Has-a Relationship)?
+- Q76. Difference between Inheritance and Composition?
+- Q77. What is an Iterator?
+- Q78. Difference between Iterable and Iterator?
+- Q79. What are Magic Methods?
+- Q80. What is Method Resolution Order (MRO)?
+- Q81. Why is Python called an Object-Oriented Language?
+- Q82. Can a class have multiple constructors in Python?
+- Q83. Can a static method access instance variables directly?
+- Q84. Can we create instance variables outside the class?
+- Q85. How do you create a static variable outside the class?
+- Q86. Why are generators memory efficient?
+- Q87. Why is `with` called a Context Manager?
+- Q88. What is the difference between `pass` and `continue`?
+- Q89. What is `__dict__` in Python objects?
+- Q90. What is the difference between `@classmethod` and `@staticmethod`?
